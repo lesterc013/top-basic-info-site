@@ -1,34 +1,19 @@
 import express from 'express';
 import fs from 'fs/promises';
-
-const app = express();
+import indexRouter from './routes/indexRouter.js';
+import authorRouter from './routes/authorRouter.js';
 
 if (process.env.NODE_ENV === 'dev') {
   process.loadEnvFile();
 }
 
+const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Set this middleware to allow serving static files like html - otherwise it will just trigger a download of the file when you access the URL.
 app.use(express.static('./'));
-
-app.get('/', async (req, res) => {
-  const html = await fs.readFile('./index.html');
-  res.set('Content-Type', 'text/html');
-  res.send(html);
-});
-
-app.get('/about', async (req, res) => {
-  const html = await fs.readFile('./about.html');
-  res.set('Content-Type', 'text/html');
-  res.send(html);
-});
-
-app.get('/contact-me', async (req, res) => {
-  const html = await fs.readFile('./contact-me.html');
-  res.set('Content-Type', 'text/html');
-  res.send(html);
-});
+app.use('/', indexRouter);
+app.use('/author', authorRouter);
 
 app.use(async (req, res, next) => {
   res.status(404);
