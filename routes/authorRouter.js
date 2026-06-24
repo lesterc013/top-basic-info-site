@@ -1,14 +1,14 @@
 import { Router } from 'express';
+import {
+  getAllAuthors,
+  getAuthorById,
+} from '../controllers/authorController.js';
 import fs from 'fs/promises';
 
 const authorRouter = Router();
 
-authorRouter.get('/', (req, res) => {
-  res.send('Return all authors');
-});
+authorRouter.get('/', getAllAuthors);
 
-authorRouter.get('/:name', (req, res) => {
-  res.send(`Get all books from author: ${req.params.name}`);
-});
+authorRouter.get('/:id', getAuthorById);
 
 export default authorRouter;
