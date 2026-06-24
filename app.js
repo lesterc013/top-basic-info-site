@@ -15,11 +15,9 @@ app.use(express.static('./'));
 app.use('/', indexRouter);
 app.use('/author', authorRouter);
 
-app.use(async (req, res, next) => {
-  res.status(404);
-  const html = await fs.readFile('./404.html');
-  res.set('Content-Type', 'text/html');
-  res.send(html);
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.statusCode || 500).send(err.message);
 });
 
 app.listen(PORT, (error) => {

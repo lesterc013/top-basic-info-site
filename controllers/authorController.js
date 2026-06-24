@@ -1,4 +1,5 @@
 import db from '../db.js';
+import CustomNotFoundError from '../errors/CustomNotFoundError.js';
 
 async function getAllAuthors(req, res) {
   res.send(await db.getAllAuthors());
@@ -10,8 +11,7 @@ async function getAuthorById(req, res) {
   const author = await db.getAuthorById(Number(id));
 
   if (!author) {
-    res.status(404).send('Author not found');
-    return;
+    throw new CustomNotFoundError(`Author id ${id} not found.`);
   }
 
   res.send(`Author Name: ${author.name}`);
