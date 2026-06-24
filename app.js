@@ -2,6 +2,11 @@ import express from 'express';
 import fs from 'fs/promises';
 
 const app = express();
+
+if (process.env.NODE_ENV === 'dev') {
+  console.log(process.env.NODE_ENV);
+}
+
 const PORT = 8080;
 
 // Set this middleware to allow serving static files like html - otherwise it will just trigger a download of the file when you access the URL.
